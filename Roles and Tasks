@@ -1,0 +1,35 @@
+Chirag Bulbule : Cryptography
+Learn Lattice Based Encryption, Homomorphic Encryption
+Scheme Selection and Parameter Tuning(CKKS and Security Level)
+Noise Budget(Bootstrapping and Optimization)
+Key Management(Creating Protocols of Secret, Public and Evaluation Key)
+Design Privacy Gateway API
+
+
+Dhaksh S Kumar : Artifical Intelligence
+Identify "Tiny Models" or Small Language Models
+Polynomial Approximation of Activation Functions
+Quantization Aware Training(reducing the precision of the AI weights from 32-bit floats to 4-bit or 8-bit integers)
+Design Inference Circuit
+
+
+Ayush S P : Backend
+Build API that accepts encrypted blobs(server should not decrypt)
+Manage Computation(Slow on CPU, Asynchronous Task Queues)
+Memory(set up encrypted vector database)
+Handle Large Data:(JSON wont work, use protobuf or msgpack to move data from frontend, backend and AI layers)
+
+
+Ram Nitish D : UX/UI
+Visualization of User Privacy through animations 
+Management of Latency
+Privacy Dashboard
+Design UI to handle confidence scores i.e showing user math was done blindly
+
+
+Dhyan M : Research
+Measurement of Slowness of FHE and RAM Usage
+Accuracy Evaluation(Plaintext mode vs FHE Mode)
+Research and Document how VaultLLM complies with privacy laws
+Documentation of tasks performed
+**Research Papers collection and uploading to GitHUB repository, Report and Poster contents
