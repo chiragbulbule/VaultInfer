@@ -1,2 +1,2 @@
-# VaultLLM
+# VaultInfer
 This is a repository for the Experiential Learning Project by second semster students at RV College of Engineering. The project involves encryption of LLM prompts through FHE or Fully Homomorphic Encryption. The prompt is encrypted at the gateway, sent to the server where necessary calucations are performed on encrypted data itself and the result is returned after decryption to the user.
