@@ -169,9 +169,3 @@ for epoch in range(1000):
         print(f"Epoch[{epoch+1}]",f"loss:{loss.item():.4f}")
 
 torch.save(my_model.state_dict(),"./VaultLLM/Model/vault_model.pth")
-
-
-
-
-
-
