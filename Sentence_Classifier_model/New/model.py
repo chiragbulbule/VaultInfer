@@ -23,11 +23,11 @@ bias=clf.intercept_ #shape-(1,)
 
 weighted_sum=np.dot(weights,test_embed) + bias
 score=(0.5) + (weighted_sum/4) - (pow(weighted_sum,3)/48) + (pow(weighted_sum,5)/480) #-[0.81565414]
-score_3=0.5+(0.15012*weighted_sum)-(0.001593*pow(weighted_sum,3))
-print(score_3)
 
 score_2=1/(1+np.exp(-weighted_sum)) #This uses sigmoid function-[0.81308656]
-print(score,score_2)
+score_3=0.5+(0.15012*weighted_sum)-(0.001593*pow(weighted_sum,3)) #-[0.71564303]
+
+print(score,score_2,score_3)
 
 #----------------------------------------------------------------------TEST CODE---------------------------------------------------------------#
 
