@@ -1,3 +1,4 @@
+import numpy as np
 alerts = [
     # Cybersecurity (30)
     "Unauthorized login attempt detected on admin account",
