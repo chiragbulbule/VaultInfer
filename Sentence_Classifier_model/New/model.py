@@ -1,6 +1,7 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sentence_embedding import embedding,train_labels,test_embed
+from vault_dataset import train_sentences
 import numpy as np
 
 #----------------------------------------------------------------Model Training----------------------------------------#
@@ -10,7 +11,7 @@ clf=LogisticRegression(max_iter=1000,class_weight={0:1,1:1.6})
 clf.fit(x_train,y_train)
 
 accuracy=clf.score(x_test,y_test)
-# print(accuracy)
+print(accuracy)
 
 prediction=clf.predict(test_embed.reshape(1,384))
 probability=clf.predict_proba(test_embed.reshape(1,384))
