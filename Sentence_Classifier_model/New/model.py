@@ -1,23 +1,38 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split,StratifiedKFold,cross_val_score,cross_val_predict
 from sentence_embedding import embedding,train_labels,test_embed
 from vault_dataset import train_sentences
 import numpy as np
 
 #----------------------------------------------------------------Model Training----------------------------------------#
 
-x_train,x_test,y_train,y_test=train_test_split(embedding,train_labels,test_size=0.2,train_size=0.8,random_state=42)
-clf=LogisticRegression(max_iter=1000,class_weight={0:1,1:1.6})
+x_train,x_test,y_train,y_test=train_test_split(embedding,train_labels,test_size=0.2,train_size=0.8,random_state=67,stratify=train_labels)
+clf=LogisticRegression(max_iter=1000,class_weight="balanced",C=1,random_state=42)
 clf.fit(x_train,y_train)
 
 accuracy=clf.score(x_test,y_test)
 print(accuracy)
+
 
 prediction=clf.predict(test_embed.reshape(1,384))
 probability=clf.predict_proba(test_embed.reshape(1,384))
 
 # print(prediction)
 # print(probability)
+
+#-----------------------------------------------------------------Cross_validation using StratifiedKFold--------------------------------------------------#
+
+sk=StratifiedKFold(shuffle=True,random_state=16)
+
+accuracy_cross_fold=cross_val_score(clf,embedding,train_labels,cv=sk)
+print(accuracy_cross_fold.mean(),np.std(accuracy_cross_fold))
+
+prediction_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk)
+prediction_probability_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk,method='predict_proba')
+
+# print(prediction_cross_fold)
+# print(prediction_probability_cross_fold)
+
 
 #----------------------------------------------------------------MANUAL IMPLEMENTATION OF FORWARD PASS------------------------------------------------#
 
@@ -89,3 +104,18 @@ print(f"Max value is {all_weighted_sum.max():0.2f}")
 print(f"Mean value is {all_weighted_sum.mean():0.2f}")
     
 """
+
+#--------------------------------------------------------------------------TEST CODE C---------------------------------------------------------------#
+
+"""
+Cross_validation using StratifiedKFold
+
+index_list=[train_labels.index(true_label) for true_label,predict_label in zip(train_labels,prediction_cross_fold) if true_label != predict_label] - incorrect because it returns first appearance
+
+index_list=[i for i,(actual_label,predict_label) in enumerate(zip(train_labels,prediction_cross_fold)) if actual_label!=predict_label]
+
+wrongly_guessed_pairs=[(train_sentences[index],prediction_probability_cross_fold[index][1].item()) for index in index_list]
+print(wrongly_guessed_pairs)
+
+"""
+

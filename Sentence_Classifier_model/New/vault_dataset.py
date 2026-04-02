@@ -1,4 +1,7 @@
 import numpy as np
+""" 
+old_dataset-
+
 alerts = [
     # Cybersecurity (30)
     "Unauthorized login attempt detected on admin account",
@@ -473,7 +476,177 @@ normals = [
     "The office is having a birthday celebration today",
     "I'm wrapping up for the day",
 ]
+"""
 
+# New_dataset
+
+alerts = [
+    # --- CYBER & NETWORK THREATS ---
+    "Unauthorized login attempt detected on admin account",
+    "Multiple failed password attempts on the root server",
+    "Malware signature found in uploaded file",
+    "Suspicious outbound traffic to unknown IP address",
+    "Ransomware process detected on workstation 4",
+    "Admin privileges escalated without authorization",
+    "Phishing email opened by user in finance department",
+    "Firewall rules modified by unrecognized process",
+    "Database credentials exposed in public repository",
+    "Encrypted traffic bypassing security proxy",
+    "Brute force attack detected on SSH port",
+    "Unauthorized API key usage from foreign IP",
+    "System logs deleted by unknown process",
+    "Critical vulnerability found in production server",
+    "Backdoor process running on network gateway",
+    "Data exfiltration detected: 2GB uploaded externally",
+    "Zero-day exploit attempt blocked on web server",
+    "Unrecognized device joined the internal network",
+    "Certificate expired on authentication server",
+    "Intrusion detection system triggered on subnet 3",
+    "Admin account accessed from two countries simultaneously",
+    "Keylogger detected on executive workstation",
+    "Internal port scan initiated from compromised machine",
+    "Suspicious PowerShell script executed remotely",
+    "DNS poisoning attempt detected",
+    "Unauthorized changes to system32 directory",
+    "VPN credentials shared on public forum",
+    "Root access granted to unverified process",
+    "Command and control traffic detected on port 443",
+
+    # --- PHYSICAL & SUBTLE THREATS ---
+    "Motion detected in restricted zone after hours",
+    "Perimeter fence sensor triggered at section 7",
+    "Unidentified person tailgating through secure entrance",
+    "Security camera feed interrupted in corridor B",
+    "Access card used after reported stolen",
+    "Vault door opened outside business hours",
+    "Unauthorized vehicle in restricted parking area",
+    "Guard station unresponsive for 15 minutes",
+    "Emergency exit door propped open overnight",
+    "Visitor badge used in area beyond clearance level",
+    "Perimeter alarm triggered on north wall",
+    "Biometric scanner bypassed at lab entrance",
+    "Suspicious package left unattended near reception",
+    "Security patrol missed scheduled checkpoint",
+    "Roof access hatch found unlocked",
+    "Armed individual reported near facility entrance",
+    "Lock mechanism on server room door tampered with",
+    "Restricted document found outside secure area",
+    "Unidentified drone spotted over facility",
+    "A stranger was seen taking photos of the server room entrance",
+
+    # ---INDUSTRIAL CRITICALS (Balanced Intensity) ---
+    "CRITICAL: Cooling system failure in reactor building!",
+    "DANGER: Hydraulic pressure in line 4 exceeding safe limits!",
+    "ALERT: Gas leak detected near compressor station!",
+    "Emergency pressure relief valve activated",
+    "Conveyor belt stopped unexpectedly mid-operation",
+    "Oil temperature in generator 2 critically high",
+    "Structural crack detected in support beam 9",
+    "Boiler pressure reading above maximum rating",
+    "Chemical storage tank seal compromised",
+    "Electrical arc detected in switchgear panel",
+    "Ventilation fan failure in underground section",
+    "Fuel leak detected near backup generator",
+    "Crane load exceeding rated capacity",
+    "Toxic fume levels above permitted threshold",
+    "Water ingress detected in electrical substation",
+    "High voltage warning on transmission line 6",
+    "Pump cavitation detected in coolant loop",
+    "Radiation reading above background in sector 3",
+    "Steam pipe temperature critically high",
+    "Emergency stop activated on production line 2",
+    "Oxygen depletion detected in confined space",
+    "Seismic sensor triggered near dam foundation",
+    "Battery bank thermal runaway initiated",
+    "Pipeline flow rate drop indicating possible rupture",
+
+    # --- HIGH-INTENSITY REINFORCEMENTS ---
+    "CRITICAL: Crane load exceeds safety rating, immediate collapse risk!",
+    "EMERGENCY: Production line 2 halted due to catastrophic failure!",
+    "IMMEDIATE SHUTDOWN: Hydraulic line 4 has ruptured!",
+    "DANGER: Turbine vibration at destructive levels, evacuate area!",
+    "SECURITY BREACH: Multiple unauthorized bypasses of the biometric lock!",
+    "SYSTEM COLLAPSE: Core database is corrupt and unreachable!",
+    "INTRUSION: Unidentified actor is actively exfiltrating personnel files!",
+    "SAFETY ALERT: Toxic gas levels have surpassed lethal thresholds!",
+    "URGENT: Main circuit breaker tripped due to high-voltage arc!"
+]
+
+normals = [
+    # --- ROUTINE TECHNICAL---
+    "The daily equipment inspection was completed without issues",
+    "Scheduled maintenance on turbine 3 finished on time",
+    "The pressure reading on line 4 is within normal operating range",
+    "Coolant levels in the primary loop are at recommended capacity",
+    "The morning shift handover report has been filed",
+    "Routine calibration of pressure sensors completed successfully",
+    "The conveyor belt speed is operating within specified limits",
+    "Generator 2 oil temperature is stable at 78 degrees",
+    "The weekly safety walk found no issues on the production floor",
+    "Fuel levels in the backup generator are at 95 percent",
+    "The ventilation system is running at normal capacity",
+    "Quarterly inspection of fire suppression system passed",
+    "The boiler pressure is holding steady at operating levels",
+    "Routine lubrication of the main conveyor completed",
+    "The water treatment plant readings are all within normal range",
+    "Monthly valve inspection completed with no anomalies found",
+    "The electrical panel temperature is within acceptable limits",
+    "Shift supervisor signed off on all equipment checks this morning",
+    "The compressor is cycling normally with no pressure drops",
+    "Routine drain inspection completed in the chemical storage area",
+    "The generator is performing its weekly self-test successfully",
+    "Routine temperature check: server rack 4 is at 22 degrees Celsius",
+    "Calibrating the temperature sensors in the server rack",
+    "The cooling fan was lubricated during the monthly service",
+    "All elevator systems are operating at peak efficiency",
+    "The projector in Conference Room B was tested and is working",
+    "Battery levels in the backup UPS are at 100 percent",
+    "Employee offboarding paperwork for the month has been filed",
+    "The maintenance team is painting the safety rails in the loading bay",
+    "We are performing a routine inventory of the stationery cupboard",
+
+    # --- NOUN NEUTRALIZERS ---
+    "Routine valve inspection: all seals are intact and functioning correctly.",
+    "The janitor is mopping the floor in the reactor building.",
+    "The cooling system is operating at the standard 15 degrees Celsius.",
+    "Hydraulic fluid levels in line 4 were topped up during the shift.",
+    "The gas detector was calibrated this morning and is reading zero.",
+    "No violation of the security protocol was detected during the scan.",
+    "The audit was completed without any unauthorized access attempts.",
+    "Zero malware signatures were found in the uploaded file batch.",
+    "None of the perimeter sensors triggered during the night shift.",
+    "The system has never reported a breach under these conditions.",
+    "No violation of security protocol.",  
+    "Status: No violation detected.",     
+    "The security protocol is currently active with no violation.",
+    "The security protocol was followed perfectly, resulting in no violation.",
+    "Verified: No violation of security protocol has ever occurred.",
+    "System check: 100% compliant with no violation of security protocol.",
+
+    # --- ADMINISTRATIVE & FACILITY FLOW ---
+    "A guest has arrived for the scheduled 2pm facility tour",
+    "The janitor is mopping the lobby floor after the shift change",
+    "General building maintenance is scheduled for next Tuesday",
+    "The office manager is ordering more printer paper for the floor",
+    "A routine software update is being pushed to all workstations",
+    "I am updating the team shift schedule for the next quarter",
+    "The water cooler in the breakroom is being refilled now",
+    "I am reviewing the documentation for the new industrial sensor",
+    "The morning commute was faster than usual today",
+    "I am drafting a congratulatory email for the team milestone",
+    "I'll grab lunch at the canteen around 12:30",
+    "The coffee machine in the lobby needs refilling",
+    "I'm going for a short walk after the shift ends",
+    "I need to reply to the pending client emails",
+    "The photocopier was refilled with A4 paper this morning",
+    "The office plants were watered by the maintenance staff",
+    "I have a one-on-one with my manager tomorrow morning",
+    "I updated my calendar with the holiday schedule",
+    "The office is having a small birthday celebration today",
+    "I'm wrapping up my tasks for the day"
+]
+
+    
 train_labels = [1] * len(alerts) + [0] * len(normals)
 train_sentences = alerts + normals
 
@@ -482,3 +655,5 @@ if __name__=="__main__":
     print(f"Alert sentences: {len(alerts)}")
     print(f"Normal sentences: {len(normals)}")
     print(f"Total: {len(train_sentences)}")
+
+

@@ -3,7 +3,7 @@ from sentence_transformers import SentenceTransformer
 
 model=SentenceTransformer("all-MiniLM-L6-v2")
 
-embedding=model.encode(train_sentences) # embedding.shape = (453,384)
+embedding=model.encode(train_sentences) # embedding.shape = (137,384)
 train_labels=train_labels
 
 #----------------------------------------------TEST CODE-----------------------------------------------#
