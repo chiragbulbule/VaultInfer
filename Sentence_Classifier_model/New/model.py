@@ -1,28 +1,50 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split,StratifiedKFold,cross_val_score,cross_val_predict
-from sentence_embedding import embedding,train_labels,test_embed
-from vault_dataset import train_sentences
+from sentence_embedding import embedding,user_embed,test_cases_embed
+from vault_dataset import train_labels
 import numpy as np
 
-#----------------------------------------------------------------Model Training----------------------------------------#
+#----------------------------------------------------------------------------Model Training-----------------------------------------------------------------#
 
-x_train,x_test,y_train,y_test=train_test_split(embedding,train_labels,test_size=0.2,train_size=0.8,random_state=67,stratify=train_labels)
-clf=LogisticRegression(max_iter=1000,class_weight="balanced",C=1,random_state=42)
+# - Earlier used method
+
+"""
+x_train,x_test,y_train,y_test=train_test_split(embedding,train_labels,test_size=0.2,train_size=0.8,random_state=67,stratify=train_labels) 
 clf.fit(x_train,y_train)
-
 accuracy=clf.score(x_test,y_test)
 print(accuracy)
 
+"""
 
-prediction=clf.predict(test_embed.reshape(1,384))
-probability=clf.predict_proba(test_embed.reshape(1,384))
+# Currently used method
 
-# print(prediction)
-# print(probability)
+clf=LogisticRegression(max_iter=1000,class_weight="balanced",C=1)
+clf.fit(embedding,train_labels)
+
+#----------------------------------------------------------------------------Model Predictions-----------------------------------------------------------------#
+
+# User input prediction
+
+prediction=clf.predict(user_embed.reshape(1,384))
+probability=clf.predict_proba(user_embed.reshape(1,384))
+
+print(prediction)
+print(probability)
+
+# Test cases prediction
+
+"""
+prediction=clf.predict(test_cases_embed)
+probability=clf.predict_proba(test_cases_embed)
+
+print(prediction)
+print(probability)
+
+"""
 
 #-----------------------------------------------------------------Cross_validation using StratifiedKFold--------------------------------------------------#
 
-sk=StratifiedKFold(shuffle=True,random_state=16)
+sk=StratifiedKFold(shuffle=True)
 
 accuracy_cross_fold=cross_val_score(clf,embedding,train_labels,cv=sk)
 print(accuracy_cross_fold.mean(),np.std(accuracy_cross_fold))
@@ -117,5 +139,17 @@ index_list=[i for i,(actual_label,predict_label) in enumerate(zip(train_labels,p
 wrongly_guessed_pairs=[(train_sentences[index],prediction_probability_cross_fold[index][1].item()) for index in index_list]
 print(wrongly_guessed_pairs)
 
+Testing which sentences are near the margin and which are way off
+
+for i,predict_proba_tuple in enumerate(prediction_probability_cross_fold):
+    if 0.4 <= predict_proba_tuple[1] <= 0.6:
+        print(f"{train_sentences[i]} - {predict_proba_tuple[1]}")
+    
+    elif abs(predict_proba_tuple[1] - train_labels[i]) > 0.6:
+        print(f"{train_sentences[i]} - {predict_proba_tuple[1]}")
+
 """
+
+
+
 
