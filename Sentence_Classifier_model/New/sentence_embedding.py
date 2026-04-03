@@ -1,4 +1,4 @@
-from vault_dataset import train_sentences
+from dataset import train_sentences
 from sentence_transformers import SentenceTransformer
 
 model=SentenceTransformer("all-MiniLM-L6-v2")

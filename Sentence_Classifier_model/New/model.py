@@ -1,7 +1,7 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split,StratifiedKFold,cross_val_score,cross_val_predict
 from sentence_embedding import embedding,user_embed,test_cases_embed
-from vault_dataset import train_labels
+from VaultInfer.Sentence_Classifier_model.New.dataset import train_labels
 import numpy as np
 import joblib as jl
 
