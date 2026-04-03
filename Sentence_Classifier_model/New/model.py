@@ -3,8 +3,9 @@ from sklearn.model_selection import train_test_split,StratifiedKFold,cross_val_s
 from sentence_embedding import embedding,user_embed,test_cases_embed
 from vault_dataset import train_labels
 import numpy as np
+import joblib as jl
 
-#----------------------------------------------------------------------------Model Training-----------------------------------------------------------------#
+#----------------------------------------------------------------------------Model Training-A-----------------------------------------------------------------#
 
 # - Earlier used method
 
@@ -19,9 +20,27 @@ print(accuracy)
 # Currently used method
 
 clf=LogisticRegression(max_iter=1000,class_weight="balanced",C=1)
+
+#-----------------------------------------------------------------Cross_validation using StratifiedKFold--------------------------------------------------#
+
+sk=StratifiedKFold(shuffle=True)
+
+accuracy_cross_fold=cross_val_score(clf,embedding,train_labels,cv=sk)
+print(accuracy_cross_fold.mean(),np.std(accuracy_cross_fold))
+
+prediction_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk)
+prediction_probability_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk,method='predict_proba')
+
+# print(prediction_cross_fold)
+# print(prediction_probability_cross_fold)
+
+#----------------------------------------------------------------------------Model Training-B-----------------------------------------------------------------#
+
 clf.fit(embedding,train_labels)
 
 #----------------------------------------------------------------------------Model Predictions-----------------------------------------------------------------#
+
+print(clf.score(embedding,train_labels))
 
 # User input prediction
 
@@ -42,26 +61,33 @@ print(probability)
 
 """
 
-#-----------------------------------------------------------------Cross_validation using StratifiedKFold--------------------------------------------------#
+#----------------------------------------------------------------SAVING MODEL,WEIGHTS AND BIAS TO RESPECTIVE FILES------------------------------------#
 
-sk=StratifiedKFold(shuffle=True)
+# weights=clf.coef_ #shape-(1,384)
+# bias=clf.intercept_ #shape-(1,)
 
-accuracy_cross_fold=cross_val_score(clf,embedding,train_labels,cv=sk)
-print(accuracy_cross_fold.mean(),np.std(accuracy_cross_fold))
+# flattened_weights=weights.flatten()
 
-prediction_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk)
-prediction_probability_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk,method='predict_proba')
+# np.save("./VaultInfer/Sentence_Classifier_model/New/vault_weights",flattened_weights)
+# np.save("./VaultInfer/Sentence_Classifier_model/New/vault_bias",bias)
+# jl.dump(clf,"./VaultInfer/Sentence_Classifier_model/New/vault_model",0)
 
-# print(prediction_cross_fold)
-# print(prediction_probability_cross_fold)
+#----------------------------------------------------------------LOADING MODEL,WEIGHTS AND BIAS FROM RESPECTIVE FILES (TEST)------------------------------------#
 
+weights=np.load("./VaultInfer/Sentence_Classifier_model/New/vault_weights.npy")
+bias=np.load("./VaultInfer/Sentence_Classifier_model/New/vault_bias.npy")
+
+model=jl.load("./VaultInfer/Sentence_Classifier_model/New/vault_model")
+
+print(weights[:4],weights.shape,bias)
+prediction=model.predict(user_embed.reshape(1,384))
+probability=model.predict_proba(user_embed.reshape(1,384))
+
+print(prediction,probability)
 
 #----------------------------------------------------------------MANUAL IMPLEMENTATION OF FORWARD PASS------------------------------------------------#
 
 # Numpy version
-
-weights=clf.coef_ #shape-(1,384)
-bias=clf.intercept_ #shape-(1,)
 
 """
 weighted_sum=np.dot(weights,test_embed) + bias
@@ -149,7 +175,5 @@ for i,predict_proba_tuple in enumerate(prediction_probability_cross_fold):
         print(f"{train_sentences[i]} - {predict_proba_tuple[1]}")
 
 """
-
-
 
 
