@@ -1,15 +1,22 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split,StratifiedKFold,cross_val_score,cross_val_predict
-from sentence_embedding import embedding,user_embed,test_cases_embed
-from VaultInfer.Sentence_Classifier_model.New.dataset import train_labels
+from sklearn.model_selection import StratifiedKFold,cross_val_score,cross_val_predict
+from sentence_embedding import embedding,user_embed
+from dataset import train_labels
 import numpy as np
 import joblib as jl
 
+"""
+This files contains the code for training and testing of the logistic regression model,along with its predictions for the given sentences(vector embeddings).
+
+"""
 #----------------------------------------------------------------------------Model Training-A-----------------------------------------------------------------#
 
 # - Earlier used method
 
 """
+This method used train_test_split where the dataset was divided into a 80/20 split - 80 for training and 20 for testing.
+This method was abandoned because the results were not conclusive and varied on test basis.
+
 x_train,x_test,y_train,y_test=train_test_split(embedding,train_labels,test_size=0.2,train_size=0.8,random_state=67,stratify=train_labels) 
 clf.fit(x_train,y_train)
 accuracy=clf.score(x_test,y_test)
@@ -23,10 +30,17 @@ clf=LogisticRegression(max_iter=1000,class_weight="balanced",C=1)
 
 #-----------------------------------------------------------------Cross_validation using StratifiedKFold--------------------------------------------------#
 
+"""
+This technique of cross validation is used to assess the accuracy of the model by splitting the data into 5 folds,
+training and testing on each sentence to accurately assess accuracy and corresponding standard deviation of the model's accuracy.
+
+"""
+
 sk=StratifiedKFold(shuffle=True)
 
 accuracy_cross_fold=cross_val_score(clf,embedding,train_labels,cv=sk)
-print(accuracy_cross_fold.mean(),np.std(accuracy_cross_fold))
+print(f"Mean Accuracy of the model is : {accuracy_cross_fold.mean():0.2f * 100}")
+print(f"Standard deviation of the accuracy is : {np.std(accuracy_cross_fold):0.4f}")
 
 prediction_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk)
 prediction_probability_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk,method='predict_proba')
@@ -36,9 +50,15 @@ prediction_probability_cross_fold=cross_val_predict(clf,embedding,train_labels,c
 
 #----------------------------------------------------------------------------Model Training-B-----------------------------------------------------------------#
 
+"""
+This is the code to actually train the model with the given dataset.
+
+"""
 clf.fit(embedding,train_labels)
 
 #----------------------------------------------------------------------------Model Predictions-----------------------------------------------------------------#
+
+# Accuracy of the model by inputting the same training data as the testing data - not an accurate measurement of accuracy
 
 print(clf.score(embedding,train_labels))
 
@@ -47,8 +67,8 @@ print(clf.score(embedding,train_labels))
 prediction=clf.predict(user_embed.reshape(1,384))
 probability=clf.predict_proba(user_embed.reshape(1,384))
 
-print(prediction)
 print(probability)
+print(prediction)
 
 # Test cases prediction
 
@@ -56,34 +76,43 @@ print(probability)
 prediction=clf.predict(test_cases_embed)
 probability=clf.predict_proba(test_cases_embed)
 
-print(prediction)
 print(probability)
+print(prediction)
 
 """
 
 #----------------------------------------------------------------SAVING MODEL,WEIGHTS AND BIAS TO RESPECTIVE FILES------------------------------------#
 
-# weights=clf.coef_ #shape-(1,384)
-# bias=clf.intercept_ #shape-(1,)
+"""
+weights=clf.coef_ #shape-(1,384)
+bias=clf.intercept_ #shape-(1,)
 
-# flattened_weights=weights.flatten()
+flattened_weights=weights.flatten() #This is to make it compatible with tenseal parameters
 
-# np.save("./VaultInfer/Sentence_Classifier_model/New/vault_weights",flattened_weights)
-# np.save("./VaultInfer/Sentence_Classifier_model/New/vault_bias",bias)
-# jl.dump(clf,"./VaultInfer/Sentence_Classifier_model/New/vault_model",0)
+np.save("./VaultInfer/Sentence_Classifier_model/New/vault_weights",flattened_weights)
+np.save("./VaultInfer/Sentence_Classifier_model/New/vault_bias",bias)
+jl.dump(clf,"./VaultInfer/Sentence_Classifier_model/New/vault_model",0)
+
+"""
 
 #----------------------------------------------------------------LOADING MODEL,WEIGHTS AND BIAS FROM RESPECTIVE FILES (TEST)------------------------------------#
 
+"""
 weights=np.load("./VaultInfer/Sentence_Classifier_model/New/vault_weights.npy")
 bias=np.load("./VaultInfer/Sentence_Classifier_model/New/vault_bias.npy")
 
 model=jl.load("./VaultInfer/Sentence_Classifier_model/New/vault_model")
 
 print(weights[:4],weights.shape,bias)
+
+# Testing if the model is loaded correctly
+
 prediction=model.predict(user_embed.reshape(1,384))
 probability=model.predict_proba(user_embed.reshape(1,384))
 
 print(prediction,probability)
+
+"""
 
 #----------------------------------------------------------------MANUAL IMPLEMENTATION OF FORWARD PASS------------------------------------------------#
 

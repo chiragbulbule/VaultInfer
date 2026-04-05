@@ -1,7 +1,15 @@
 from dataset import train_sentences
 from sentence_transformers import SentenceTransformer
 
+"""
+This file converts(encodes) the train_sentences from dataset.py into an embedding of 384 dimensional vectors.
+It also includes a user_embed , where a user can type his/her sentence which is then converted into a 384 dim vector and result is therby computed as alert or normal in the model.py file.
+
+"""
+
 model=SentenceTransformer("all-MiniLM-L6-v2")
+
+# 384 dim vector embedding
 
 embedding=model.encode(train_sentences) # embedding.shape = (338,384)
 
@@ -27,6 +35,8 @@ test_cases = [
 ]
 
 test_cases_embed=model.encode(test_cases)
+
+
 
 
 
