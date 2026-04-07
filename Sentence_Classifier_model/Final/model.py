@@ -39,7 +39,7 @@ training and testing on each sentence to accurately assess accuracy and correspo
 sk=StratifiedKFold(shuffle=True)
 
 accuracy_cross_fold=cross_val_score(clf,embedding,train_labels,cv=sk)
-print(f"Mean Accuracy of the model is : {accuracy_cross_fold.mean():0.2f * 100}")
+print(f"Mean Accuracy of the model is : {accuracy_cross_fold.mean():0.2f}")
 print(f"Standard deviation of the accuracy is : {np.std(accuracy_cross_fold):0.4f}")
 
 prediction_cross_fold=cross_val_predict(clf,embedding,train_labels,cv=sk)
