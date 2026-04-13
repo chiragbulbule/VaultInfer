@@ -1,8 +1,11 @@
 import tenseal as ts
 import numpy as np
+from pathlib import Path
 
-weights=np.load("./Sentence_Classifier_model/Final/vault_weights.npy").tolist()
-bias=np.load("./Sentence_Classifier_model/Final/vault_bias.npy").tolist()
+BASE_DIR=Path(__file__).parent.resolve()
+
+weights=np.load(f"{BASE_DIR}/vault_weights.npy").tolist()
+bias=np.load(f"{BASE_DIR}/vault_bias.npy").tolist()
 
 def encrypted_forward_pass(encrypted_vector):
   ws = encrypted_vector.dot(weights) + float(bias[0])

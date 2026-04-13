@@ -4,11 +4,15 @@ from sentence_embedding import embedding,user_embed
 from dataset import train_labels
 import numpy as np
 import joblib as jl
+from pathlib import Path
+
+BASE_DIR=Path(__file__).parent.resolve()
 
 """
 This files contains the code for training and testing of the logistic regression model,along with its predictions for the given sentences(vector embeddings).
 
 """
+
 #----------------------------------------------------------------------------Model Training-A-----------------------------------------------------------------#
 
 # - Earlier used method
@@ -83,25 +87,27 @@ print(prediction)
 
 #----------------------------------------------------------------SAVING MODEL,WEIGHTS AND BIAS TO RESPECTIVE FILES------------------------------------#
 
+
 """
 weights=clf.coef_ #shape-(1,384)
 bias=clf.intercept_ #shape-(1,)
 
 flattened_weights=weights.flatten() #This is to make it compatible with tenseal parameters
 
-np.save("./VaultInfer/Sentence_Classifier_model/New/vault_weights",flattened_weights)
-np.save("./VaultInfer/Sentence_Classifier_model/New/vault_bias",bias)
-jl.dump(clf,"./VaultInfer/Sentence_Classifier_model/New/vault_model",0)
+np.save(f"{BASE_DIR}/vault_weights",flattened_weights)
+np.save(f"{BASE_DIR}/vault_bias",bias)
+jl.dump(clf,f"{BASE_DIR}/vault_model",0)
 
 """
 
 #----------------------------------------------------------------LOADING MODEL,WEIGHTS AND BIAS FROM RESPECTIVE FILES (TEST)------------------------------------#
 
 """
-weights=np.load("./VaultInfer/Sentence_Classifier_model/New/vault_weights.npy")
-bias=np.load("./VaultInfer/Sentence_Classifier_model/New/vault_bias.npy")
 
-model=jl.load("./VaultInfer/Sentence_Classifier_model/New/vault_model")
+weights=np.load(f"{BASE_DIR}/vault_weights.npy")
+bias=np.load(f"{BASE_DIR}/vault_bias.npy")
+
+model=jl.load(f"{BASE_DIR}/vault_model")
 
 print(weights[:4],weights.shape,bias)
 
@@ -119,7 +125,7 @@ print(prediction,probability)
 # Numpy version
 
 """
-weighted_sum=np.dot(weights,test_embed) + bias
+weighted_sum=np.dot(weights,user_embed) + bias
 
 score=(0.5) + (weighted_sum/4) - (pow(weighted_sum,3)/48) + (pow(weighted_sum,5)/480) #-[0.81565414]-5th degree polynomial
 
@@ -127,7 +133,7 @@ score=(0.5) + (weighted_sum/4) - (pow(weighted_sum,3)/48) + (pow(weighted_sum,5)
 
 # Tenseal version
 
-# To be completed
+# In vault_inference.py
 
 #--------------------------------------------------------------------------TEST CODE A---------------------------------------------------------------#
 
