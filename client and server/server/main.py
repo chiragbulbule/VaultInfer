@@ -4,6 +4,7 @@ import os
 import uuid
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from vault_inference import encrypted_forward_pass
 
 app = FastAPI(title="Vault-LLM Secure Gateway")
 
@@ -31,15 +32,7 @@ async def compute(payload: EncryptedPayload):
 
         enc_vector = ts.ckks_vector_from(client_context, bytes(payload.data))
 
-        ws = enc_vector.dot(weights.tolist())
-        ws += float(bias[0])     #since bias is loaded from numpy its always a 1d array cant be scalar
-
-        ws2 = ws * ws
-        ws3 = ws2 * ws
-        ws4 = ws3 * ws
-        ws5 = ws4 * ws
-
-        score = 0.5 + (ws * 0.25) - (ws3 * (1/48)) + (ws5 * (1/480))
+        score=encrypted_forward_pass(enc_vector)
 
         job_id = str(uuid.uuid4())
         result_store[job_id] = list(score.serialize())

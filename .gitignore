@@ -1,4 +1,5 @@
 Sentence_Classifier_model/Old
 __pycache__/
 *.pyc
+.vscode
 .venv/
