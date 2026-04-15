@@ -12,6 +12,8 @@ def create_client_context():
         poly_modulus_degree=16384,
         coeff_mod_bit_sizes=[60, 40, 40, 40, 40, 40, 40, 60] 
     )
+    context.auto_relin = True
+    context.auto_rescale = True
     context.global_scale = 2**40
     context.generate_galois_keys()
     context.generate_relin_keys()

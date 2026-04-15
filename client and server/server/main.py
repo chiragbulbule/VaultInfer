@@ -8,17 +8,8 @@ from vault_inference import encrypted_forward_pass
 
 app = FastAPI(title="Vault-LLM Secure Gateway")
 
-
 # In-memory store for computed results (keyed by job_id)
-result_store: dict = {}
-
-# Load trained weights and bias
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-weights = np.load(os.path.join(BASE_DIR, "vault_weights.npy"))
-bias = np.load(os.path.join(BASE_DIR, "vault_bias.npy"))
-
-
-     
+result_store: dict = {}     
 
 class EncryptedPayload(BaseModel):
     context: list
