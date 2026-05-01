@@ -9,12 +9,12 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 def create_client_context():
     context = ts.context(
         ts.SCHEME_TYPE.CKKS,
-        poly_modulus_degree=16384,
-        coeff_mod_bit_sizes=[60, 40, 40, 40, 40, 40, 40, 60] 
+        poly_modulus_degree=8192,
+        coeff_mod_bit_sizes=[40, 26, 26, 26, 26, 26, 40] 
     )
     context.auto_relin = True
     context.auto_rescale = True
-    context.global_scale = 2**40
+    context.global_scale = 2**26
     context.generate_galois_keys()
     context.generate_relin_keys()
     return context
