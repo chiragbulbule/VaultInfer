@@ -19,3 +19,4 @@ model.zero_grad()
 
 result = model(transformation(img=image).unsqueeze(0))
 print(result.shape)
+print(result)
