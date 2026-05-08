@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 .vscode
 .venv/
+Sentence_Classifier_model/Final/kaggle_dataset/chest_xray/.DS_Store
+Sentence_Classifier_model/Final/kaggle_dataset/chest_xray/test/.DS_Store
+Sentence_Classifier_model/Final/kaggle_dataset/chest_xray/val/.DS_Store
+Sentence_Classifier_model/Final/kaggle_dataset/chest_xray/val/NORMAL/.DS_Store
+Sentence_Classifier_model/Final/kaggle_dataset/chest_xray/val/PNEUMONIA/.DS_Store
