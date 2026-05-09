@@ -1,6 +1,6 @@
-Sentence_Classifier_model/Old
 __pycache__/
 *.pyc
 .vscode
 .venv/
+.venv_tenseal/
 Note.py
