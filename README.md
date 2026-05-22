@@ -1,6 +1,6 @@
 # VaultMed
 
-VaultMed is a privacy-preserving encrypted medical diagnosis system built on Fully Homomorphic Encryption. A chest X-ray is never transmitted in plaintext — CheXNet extracts features locally, those features are encrypted on the client, classified on a diagnostic server without decryption, and the encrypted result is returned and decrypted only on the client.
+VaultMed is a privacy-preserving encrypted medical diagnosis system built on Fully Homomorphic Encryption. Chest X-rays are processed entirely on the client — CheXNet extracts a 1024-dimensional feature vector locally, which is encrypted using CKKS before leaving the device. The diagnostic server computes classification directly on the ciphertext and returns an encrypted result. Decryption happens only on the client. The server sees nothing but ciphertext at every stage.
 
 Built by second-semester students at RV College of Engineering, Bengaluru.
 
@@ -13,7 +13,6 @@ Chest X-ray → CheXNet (local) → 1024-dim features
 → clip + RobustScaler → CKKS encrypt
 → encrypted dot product + bias (server)
 → decrypt (client) → sigmoid → PNEUMONIA / NORMAL / INCONCLUSIVE
-
 ```
 
 The server performs classification entirely on ciphertext using the CKKS homomorphic encryption scheme via TenSEAL. It never sees the raw features, the weighted sum, or the result.
@@ -22,7 +21,6 @@ The server performs classification entirely on ciphertext using the CKKS homomor
 
 ## Performance
 
-```
 | Metric             | Value                                                     |
 | ------------------ | --------------------------------------------------------- |
 | Accuracy           | 91%                                                       |
@@ -34,23 +32,33 @@ The server performs classification entirely on ciphertext using the CKKS homomor
 | Feature Extractor  | CheXNet (DenseNet-121, chest X-ray pretrained)            |
 | Classifier         | Logistic Regression (C=0.000075, class_weight='balanced') |
 
-```
-
 ---
 
 ## Key Technical Decisions
 
-```
 **Why Logistic Regression?**
-FHE requires a linear classifier — weights must be extractable and the inference must reduce to a dot product. Logistic regression satisfies both while achieving strong performance on CheXNet features.
+
+```
+FHE inference must reduce to a dot product — logistic regression satisfies this directly. Weights are extractable, inference is a single encrypted dot product, and CheXNet features are rich enough that a linear classifier achieves strong performance without a more complex model.
+```
 
 **Why client-side sigmoid?**
-Applying the degree-5 Taylor polynomial sigmoid on encrypted vectors after a 1024-dim dot product exhausts the CKKS noise budget regardless of parameter choice. The server returns the encrypted weighted sum; the client decrypts and applies sigmoid in plaintext. The privacy guarantee is identical — the server never sees any plaintext value.
-
-**Why the inconclusive band?**
-The model's probability distribution shows clear separation: NORMAL cases cluster between 0.0–0.4, PNEUMONIA cases between 0.7–1.0, with genuine overlap in between. Cases in the 0.4–0.7 range are flagged as INCONCLUSIVE and referred to a radiologist rather than forced into a binary label.
 
 ```
+A 1024-dim encrypted dot product consumes most of the available CKKS noise budget. Applying a degree-5 Taylor polynomial sigmoid on top exhausts it entirely, producing garbage output. Instead, the server returns the encrypted weighted sum and the client applies sigmoid after decryption. The privacy guarantee is unchanged — the server never sees any plaintext value at any point.
+```
+
+**Why the inconclusive band?**
+
+```
+Forcing every prediction into a binary label is inappropriate for a medical screening tool. The model's score distribution shows natural separation — NORMAL cases cluster between 0.0 and 0.4, PNEUMONIA cases between 0.7 and 1.0. Cases in the overlap region are flagged as INCONCLUSIVE and referred to a radiologist rather than assigned a potentially wrong label.
+```
+
+---
+
+## Research Prototype
+
+VaultInfer is the NLP classifier that preceded VaultMed, validating the FHE inference approach on text before applying it to medical imaging. It classifies sentences as ALERT or NORMAL using the same CKKS encrypted dot product architecture.
 
 ---
 
@@ -136,7 +144,6 @@ vaultmed/                               <-- Main Repository Root
 
 ## Team
 
-```
 | Name           | Role          | Responsibilities                                                                          |
 | -------------- | ------------- | ----------------------------------------------------------------------------------------- |
 | Chirag Bulbule | Cryptographer | CKKS parameter tuning, TenSEAL integration, key management, server-client crypto protocol |
@@ -147,16 +154,11 @@ vaultmed/                               <-- Main Repository Root
 
 RV College of Engineering, Bengaluru — Experiential Learning Project, Semester 2, 2025–26
 
-```
-
 ---
 
 ## Future Work
 
-```
-- Slot-packed batch inference — CKKS with poly_modulus_degree=8192 provides 4096 slots; a 1024-dim vector uses 1024, leaving room for 4 parallel encrypted classifications per ciphertext while maintaining around the same processing time.
-- Extension to other CheXNet pathologies — the feature extractor supports 14 chest conditions beyond pneumonia.
-- Formal noise analysis — quantify CKKS approximation error against plaintext dot product across all 624 test samples, measuring mean error, maximum error, and whether noise ever crosses the decision boundary to change a prediction.
-- Adaptive inconclusive thresholds — current 0.4/0.7 thresholds are calibrated on the Kaggle test distribution; a clinical deployment would require adaptive thresholds based on local patient population, pneumonia prevalence, and acceptable false negative rate.
-
-```
+- Slot-packed batch inference — CKKS with poly_modulus_degree=8192 provides 4096 slots; a 1024-dim feature vector occupies 1024, allowing up to 4 parallel encrypted classifications per ciphertext at near-identical latency
+- Multi-label classification — CheXNet was pretrained on 14 chest pathologies; extending VaultMed to detect multiple conditions simultaneously within the same encrypted inference pipeline
+- Formal noise analysis — quantify CKKS approximation error against plaintext inference across all 624 test samples, measuring mean error, maximum error, and whether noise ever shifts a prediction across the decision boundary
+- Adaptive inconclusive thresholds — the current 0.4/0.7 band is calibrated on the Kaggle test distribution; a clinical deployment requires thresholds tuned to local patient population, condition prevalence, and acceptable false negative rate
