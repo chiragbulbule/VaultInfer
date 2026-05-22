@@ -2,6 +2,7 @@ from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold,cross_val_score,cross_val_predict,GridSearchCV
 import numpy as np
+import joblib as jl
 
 BASE_DIR=Path(__file__).parent.resolve()
 PARENT_DIR=BASE_DIR.parent
@@ -61,8 +62,6 @@ print(f"Min of weights : {weights.min() : 0.4f}")
 
 flattened_weights=weights.flatten() #This is to make it compatible
 
-# import joblib as jl
-
-# np.save(f"{BASE_DIR}/vault_weights",flattened_weights)
-# np.save(f"{BASE_DIR}/vault_bias",bias)
-# jl.dump(clf,f"{BASE_DIR}/vault_med_model",0)
+np.save(f"{BASE_DIR}/vault_weights",flattened_weights)
+np.save(f"{BASE_DIR}/vault_bias",bias)
+jl.dump(clf,f"{BASE_DIR}/vault_med_model",0)

@@ -19,7 +19,8 @@ experiment/
 vault_med/client_and_server/shared/
 
 # ── Image dataset — download from Kaggle ──
-vault_med/feature_extraction/image_dataset/
+vault_med/feature_extraction/image_dataset/test/
+vault_med/feature_extraction/image_dataset/train/
 
 # ── Logs — server generated ──
 vault_med/client_and_server/logs/

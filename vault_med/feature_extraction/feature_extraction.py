@@ -126,16 +126,16 @@ r_scaler.fit(train_features)
 train_features=r_scaler.transform(train_features)
 test_features=r_scaler.transform(test_features)
 
-# jb.dump(p95,f"{BASE_DIR}/data/vault_med_clipper.joblib")
-# jb.dump(r_scaler,f"{BASE_DIR}/data/vault_med_r_scaler.joblib")
+jb.dump(p95,f"{BASE_DIR}/data/vault_med_clipper.joblib")
+jb.dump(r_scaler,f"{BASE_DIR}/data/vault_med_r_scaler.joblib")
 
 print("Train-Shape : ",train_features.shape,train_labels.shape)
 print("Test-Shape : ",test_features.shape,test_labels.shape)
 
-# np.save(file=f"{BASE_DIR}/data/train_features",arr=train_features)
-# np.save(file=f"{BASE_DIR}/data/train_labels",arr=train_labels)
+np.save(file=f"{BASE_DIR}/data/train_features",arr=train_features)
+np.save(file=f"{BASE_DIR}/data/train_labels",arr=train_labels)
 
-# np.save(file=f"{BASE_DIR}/data/test_features",arr=test_features)
-# np.save(file=f"{BASE_DIR}/data/test_labels",arr=test_labels)
+np.save(file=f"{BASE_DIR}/data/test_features",arr=test_features)
+np.save(file=f"{BASE_DIR}/data/test_labels",arr=test_labels)
 
 
