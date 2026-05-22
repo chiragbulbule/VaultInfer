@@ -1,7 +1,10 @@
 # VaultMed
 
-VaultMed is a privacy-preserving encrypted medical diagnosis system built on Fully Homomorphic Encryption.
-Chest X-rays are processed entirely on the client — CheXNet extracts a 1024-dimensional feature vector locally, which is encrypted using CKKS before leaving the device. The diagnostic server computes classification directly on the ciphertext and returns an encrypted result. Decryption happens only on the client. The server sees nothing but ciphertext at every stage.
+VaultMed is a privacy-preserving medical diagnosis system built on Fully Homomorphic Encryption.
+
+> The server classifies your X-ray without ever seeing it.
+
+Chest X-rays are processed entirely on the client — CheXNet extracts a 1024-dimensional feature vector locally, encrypted using CKKS before leaving the device. The diagnostic server computes classification directly on ciphertext and returns an encrypted result. Decryption happens only on the client. The server sees nothing but ciphertext at every stage.
 
 Built by second-semester students at RV College of Engineering, Bengaluru.
 
@@ -9,10 +12,12 @@ Built by second-semester students at RV College of Engineering, Bengaluru.
 
 ## How It Works
 
+```
 Chest X-ray → CheXNet (local) → 1024-dim features
 → clip + RobustScaler → CKKS encrypt
 → encrypted dot product + bias (server)
 → decrypt (client) → sigmoid → PNEUMONIA / NORMAL / INCONCLUSIVE
+```
 
 ---
 
@@ -63,70 +68,72 @@ VaultInfer is the NLP classifier that preceded VaultMed, validating the FHE infe
 
 ## Repository Structure
 
-vaultmed/ <-- Main Repository Root
-├── docs/ <-- Project Documentation
-│ ├── Literature and Information
-│ ├── Roles and Tasks
-│ ├── setup-vault_infer.md <-- VaultInfer setup guide
-│ └── setup-vault_med.md <-- VaultMed setup guide
+```
+vaultmed/                               <-- Main Repository Root
+├── docs/                               <-- Project Documentation
+│   ├── Literature and Information
+│   ├── Roles and Tasks
+│   ├── setup-vault_infer.md            <-- VaultInfer setup guide
+│   └── setup-vault_med.md              <-- VaultMed setup guide
 │
-├── vault_infer/ <-- A privacy-preserving NLP security classifier (Project-1)
-│ ├── client_and_server/
-│ │ ├── client/
-│ │ │ └── client.py
-│ │ ├── server/
-│ │ │ ├── server.py
-│ │ │ └── vault_inference.py
-│ │ └── requirements.txt
-│ ├── dataset.py
-│ ├── model.py
-│ ├── sentence_embedding.py
-│ ├── vault_bias.npy
-│ ├── vault_model
-│ └── vault_weights.npy
+├── vault_infer/                        <-- A privacy-preserving NLP security classifier (Project-1)
+│   ├── client_and_server/
+│   │   ├── client/
+│   │   │   └── client.py
+│   │   ├── server/
+│   │   │   ├── server.py
+│   │   │   └── vault_inference.py
+│   │   └── requirements.txt
+│   ├── dataset.py
+│   ├── model.py
+│   ├── sentence_embedding.py
+│   ├── vault_bias.npy
+│   ├── vault_model
+│   └── vault_weights.npy
 │
-├── vault_med/ <-- A privacy-preserving encrypted medical diagnostic system (Project-2)
-│ ├── client_and_server/
-│ │ ├── client/
-│ │ │ ├── client.py
-│ │ │ ├── context_setup.py
-│ │ │ └── secret.tenseal
-│ │ ├── logs/
-│ │ │ └── audit.log
-│ │ ├── server/
-│ │ │ └── server.py
-│ │ ├── shared/
-│ │ │ └── public.tenseal
-│ │ └── requirements.txt
-│ │
-│ ├── feature_extraction/
-│ │ ├── data/
-│ │ │ ├── test_features.npy
-│ │ │ ├── test_labels.npy
-│ │ │ ├── train_features.npy
-│ │ │ ├── train_labels.npy
-│ │ │ ├── vault_med_clipper.joblib
-│ │ │ ├── vault_med_r_scaler.joblib
-│ │ │ └── weights.pth.tar
-│ │ ├── image_dataset/
-│ │ └── feature_extraction.py
-│ │
-│ ├── model_test_and_inference/
-│ │ ├── inconclusive.jpg
-│ │ ├── normal.jpg
-│ │ ├── pneumonia.jpg
-│ │ └── test.py
-│ │
-│ └── model_training/
-│ ├── FinalTenSEALModel.ipynb
-│ ├── train.py
-│ ├── vault_bias.npy
-│ ├── vault_med_model
-│ └── vault_weights.npy
+├── vault_med/                          <-- A privacy-preserving encrypted medical diagnostic system (Project-2)
+│   ├── client_and_server/
+│   │   ├── client/
+│   │   │   ├── client.py
+│   │   │   ├── context_setup.py
+│   │   │   └── secret.tenseal
+│   │   ├── logs/
+│   │   │   └── audit.log
+│   │   ├── server/
+│   │   │   └── server.py
+│   │   ├── shared/
+│   │   │   └── public.tenseal
+│   │   └── requirements.txt
+│   │
+│   ├── feature_extraction/
+│   │   ├── data/
+│   │   │   ├── test_features.npy
+│   │   │   ├── test_labels.npy
+│   │   │   ├── train_features.npy
+│   │   │   ├── train_labels.npy
+│   │   │   ├── vault_med_clipper.joblib
+│   │   │   ├── vault_med_r_scaler.joblib
+│   │   │   └── weights.pth.tar
+│   │   ├── image_dataset/
+│   │   └── feature_extraction.py
+│   │
+│   ├── model_test_and_inference/
+│   │   ├── inconclusive.jpg
+│   │   ├── normal.jpg
+│   │   ├── pneumonia.jpg
+│   │   └── test.py
+│   │
+│   └── model_training/
+│       ├── FinalTenSEALModel.ipynb
+│       ├── train.py
+│       ├── vault_bias.npy
+│       ├── vault_med_model
+│       └── vault_weights.npy
 |
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
+```
 
 ---
 
