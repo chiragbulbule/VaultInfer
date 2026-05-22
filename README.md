@@ -69,6 +69,7 @@ VaultInfer is the NLP classifier that preceded VaultMed, validating the FHE infe
 ## Repository Structure
 
 ```
+
 vaultmed/                               <-- Main Repository Root
 ├── docs/                               <-- Project Documentation
 │   ├── Literature and Information
@@ -133,6 +134,7 @@ vaultmed/                               <-- Main Repository Root
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
+
 ```
 
 ---
@@ -155,3 +157,5 @@ vaultmed/                               <-- Main Repository Root
 - **Multi-label classification** — CheXNet was pretrained on 14 chest pathologies; extending VaultMed to detect multiple conditions simultaneously within the same encrypted inference pipeline.
 - **Formal noise analysis** — quantify CKKS approximation error against plaintext inference across all 624 test samples, measuring mean error, maximum error, and whether noise ever shifts a prediction across the decision boundary.
 - **Adaptive inconclusive thresholds** — the current 0.4/0.7 band is calibrated on the Kaggle test distribution; a clinical deployment requires thresholds tuned to local patient population, condition prevalence, and acceptable false negative rate.
+
+---
