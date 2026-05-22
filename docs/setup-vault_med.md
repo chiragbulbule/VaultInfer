@@ -45,13 +45,14 @@ To Download the Dataset
 1. Download the Chest X-Ray Images dataset from [Kaggle](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia)
 2. Place it at `vault_med/feature_extraction/image_dataset/` with the following structure:
 
-```image_dataset/
-train/
-NORMAL/
-PNEUMONIA/
-test/
-NORMAL/
-PNEUMONIA/
+```
+image_dataset/
+    train/
+        NORMAL/
+        PNEUMONIA/
+    test/
+        NORMAL/
+        PNEUMONIA/
 ```
 
 To Extract Features
