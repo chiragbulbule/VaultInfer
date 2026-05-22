@@ -1,6 +1,9 @@
 from sentence_transformers import SentenceTransformer
 import numpy
 import torch,torch.nn as nn
+from pathlib import Path
+
+BASE_DIR=Path(__file__).parent.resolve()
 
 #---------------------------------Previous Test code-----------------------------#
 
@@ -168,4 +171,4 @@ for epoch in range(1000):
     if (epoch + 1) % 10 == 0:
         print(f"Epoch[{epoch+1}]",f"loss:{loss.item():.4f}")
 
-torch.save(my_model.state_dict(),"./VaultLLM/Model/vault_model.pth")
+torch.save(my_model.state_dict(),f"{BASE_DIR}/vault_model.pth")
