@@ -26,6 +26,7 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 
 <details>
 <summary><strong>Option A: Enable Windows Developer Mode (Recommended)</strong></summary>
+<br>
 
 1. Open **Windows Settings**.
 2. Go to **Privacy & security -> For developers** (or search "Developer settings").
@@ -35,6 +36,7 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 
 <details>
 <summary><strong>Option B: Add a Global System Environment Variable</strong></summary>
+<br>
 
 If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlinks globally:
 
@@ -75,7 +77,7 @@ uvicorn server:app --reload
 
 ### To Start the Client
 
-1. Open another new terminal
+1. Open a new terminal
 
 ```bash
 cd vault_infer/client_and_server/client
