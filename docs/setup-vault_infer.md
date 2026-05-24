@@ -15,7 +15,7 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 
 1. Create a free account at [huggingface.co](https://huggingface.co/).
 2. Navigate to **Settings -> Access Tokens** and create a new token with **Read** access.
-3. Create a `.env` file preferably inside the `data/` folder `(vault_infer/data/.env) and add your token without spaces:
+3. Create a `.env` file preferably inside the `data/` folder (vault_infer/data/.env) and add your token without spaces:
 
    `HF_TOKEN=your_actual_token_here`
 
@@ -55,9 +55,12 @@ If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlink
 <summary><strong>Option C: One-Time Administrator Run</strong></summary>
 <br>
 
-1. Simply run your terminal or VS Code as Administrator the very first time you launch `server.py`. Once the initial download completes and caches the weights, you can run it normally.
+1. Simply run your terminal or VS Code as Administrator the very first time you launch `client.py`. After this, it can be run normally.
 
 </details>
+
+> [!Note]
+> During the first run, the sentence transformer model is downloaded and the weights are cached.
 
 ---
 
