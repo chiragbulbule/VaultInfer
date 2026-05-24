@@ -46,7 +46,7 @@ uvicorn server:app --reload
 
 ```bash
 cd vault_med/client_and_server/client
-python client.py
+python client.py <path_to_image>
 ```
 
 > [!NOTE]
