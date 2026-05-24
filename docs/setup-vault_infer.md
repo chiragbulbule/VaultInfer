@@ -2,7 +2,7 @@
 
 ### To Install Required Dependancies
 
-```bash
+```
 cd vault_infer/client_and_server
 pip install -r requirements.txt
 
