@@ -19,13 +19,15 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 
    `HF_TOKEN=your_actual_token_here`
 
+---
+
 > [!WARNING]
 > **Windows Symlinks Warning:** When downloading the weights for the very first time, Hugging Face may throw a warning regarding file symlinks. To fix or suppress this completely on Windows, choose one of the following options:
 
 <details>
 <summary><strong>Option A: Enable Windows Developer Mode (Recommended)</strong></summary>
-
 <br>
+
 1. Open **Windows Settings**.
 2. Go to **Privacy & security -> For developers** (or search "Developer settings").
 3. Toggle **Developer Mode** to On and accept the prompt.
@@ -34,8 +36,8 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 
 <details>
 <summary><strong>Option B: Add a Global System Environment Variable</strong></summary>
-
 <br>
+
 If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlinks globally:
 
 1. Search for **"Edit the system environment variables"** in the Start Menu and open it.
@@ -51,11 +53,13 @@ If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlink
 
 <details>
 <summary><strong>Option C: One-Time Administrator Run</strong></summary>
-
 <br>
+
 1. Simply run your terminal or VS Code as Administrator the very first time you launch `server.py`. Once the initial download completes and caches the weights, you can run it normally.
 
 </details>
+
+---
 
 ### To Start the Server
 
@@ -69,6 +73,8 @@ uvicorn server:app --reload
 > [!NOTE]
 > By default the server will run on `http://127.0.0.1:8000`
 
+---
+
 ### To Start the Client
 
 1. Open another new terminal
@@ -78,6 +84,8 @@ cd vault_infer/client_and_server/client
 python client.py
 ```
 
+---
+
 ## To Reproduce the Model from Scratch
 
 ### To Retrain the Classifier
@@ -86,6 +94,8 @@ python client.py
 cd vault_infer
 python model.py
 ```
+
+---
 
 > [!NOTE]
 > `model.py` imports from `dataset.py` and `sentence_embedding.py` automatically. Running it alone is sufficient.
