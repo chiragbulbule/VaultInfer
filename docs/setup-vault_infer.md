@@ -17,7 +17,28 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 
 [!WARNING]
 
-Windows Symlinks Warning: When downloading the weights for the very first time, Hugging Face may throw a warning regarding file symlinks. To resolve or disable this, either run your IDE/Terminal as Administrator for the first run, or turn on Developer Mode in your Windows system settings.
+Windows Symlinks Warning: When downloading the weights for the very first time, Hugging Face may throw a warning regarding file symlinks. To fix or suppress this completely on Windows, choose one of the following options:
+
+Option A: Enable Windows Developer Mode (Recommended)
+
+1. Open the Windows Settings app.
+2. Go to Privacy & security -> For developers (or search "Developer settings").
+3. Toggle Developer Mode to On and accept the prompt.
+
+Option B: Add a Global System Environment Variable
+
+If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlinks globally:
+
+1. Search for "Edit the system environment variables" in the Windows Start Menu and open it.
+2. Click the Environment Variables... button at the bottom right.
+3. Under User variables (or System variables), click New....
+4. Set the Variable name to HF_HUB_DISABLE_SYMLINKS_WARNING and the Variable value to 1.
+
+Click OK on all windows to save. (Note: Restart your terminal/IDE for this change to take effect).
+
+Option C: One-Time Administrator Run
+
+Simply run your terminal or VS Code as Administrator the very first time you launch server.py. Once the initial download completes and caches the weights, you can run it normally.
 
 To Start the Server
 
