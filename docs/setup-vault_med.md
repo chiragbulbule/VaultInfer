@@ -8,7 +8,7 @@ pip install -r requirements.txt
 ```
 
 > [!NOTE]
-> TenSEAL supports Python 3.8 through 3.13. Recommended: Python 3.13.
+> TenSEAL supports Python 3.8 through 3.13. Recommended : Python 3.13.
 
 ---
 
@@ -42,7 +42,7 @@ uvicorn server:app --reload
 
 ### To Run the Client
 
-1. Open another new terminal
+1. Open a new terminal
 
 ```bash
 cd vault_med/client_and_server/client
@@ -60,30 +60,36 @@ python client.py
 
 1. Download the Chest X-Ray Images dataset from [Kaggle](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia).
 2. Place it at `vault_med/feature_extraction/image_dataset/` with the following structure:
-   ```
-   image_dataset/
-   train/
-   NORMAL/
-   PNEUMONIA/
-   test/
-   NORMAL/
-   PNEUMONIA/
-   ```
+
+```
+image_dataset/
+    train/
+        NORMAL/
+        PNEUMONIA/
+    test/
+        NORMAL/
+        PNEUMONIA/
+```
 
 ---
 
 ### To Extract Features
 
+1. Open a new terminal
+
 ```bash
+cd vault_med/feature_extraction
 python feature_extraction.py
 ```
 
 > [!NOTE]
-> This uses the committed `weights.pth.tar` CheXNet weights to extract 1024-dim features from each image. Outputs `train_features.npy`, `test_features.npy`, `train_labels.npy`, `test_labels.npy`, `vault_med_clipper.joblib`, and `vault_med_r_scaler.joblib` into `feature_extraction/data/`.
+> This uses the committed weights.pth.tar CheXNet weights to extract 1024-dim features from each image. Outputs train_features.npy, test_features.npy, train_labels.npy, test_labels.npy, vault_med_clipper.joblib, and vault_med_r_scaler.joblib into feature_extraction/data/.
 
 ---
 
 ### To Train the Model
+
+1. Open a new terminal
 
 ```bash
 cd vault_med/model_training
@@ -91,7 +97,7 @@ python train.py
 ```
 
 > [!NOTE]
-> Outputs `vault_med_model`, `vault_weights.npy`, and `vault_bias.npy` into `model_training/`. Then follow the Quick Start steps above from key generation onwards.
+> Outputs vault_med_model, vault_weights.npy, and vault_bias.npy into model_training/. Then follow the Quick Start steps above from key generation onwards.
 
 > [!WARNING]
 > Retraining will overwrite the existing committed weights. The committed weights achieve 91% accuracy, 0.96 PNEUMONIA recall, and 0.82 NORMAL recall on the Kaggle test set.
