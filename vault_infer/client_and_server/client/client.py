@@ -13,7 +13,7 @@ CACHE_PATH = PARENT_DIR / "data" / "cache"
 load_dotenv(ENV_PATH)
 disable_progress_bar()
 
-print("🔄 Loading Sentence Transformer...")
+print("\n🔄 Loading Sentence Transformer...")
 model=SentenceTransformer("all-MiniLM-L6-v2",cache_folder = CACHE_PATH) # model used for encoding the sentences into 384 dim vectors
 
 def create_client_context():
@@ -40,7 +40,7 @@ def run_vault_inference():
     embedding = model.encode(user_text).tolist()
 
     # Step 2: Encrypt the embedding
-    print("🔒 Encrypting embedding...")
+    print("\n🔒 Encrypting embedding...")
     enc_vector = ts.ckks_vector(context, embedding)
 
     # Step 3: POST encrypted vector + context to server
