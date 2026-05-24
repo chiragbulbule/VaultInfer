@@ -20,7 +20,7 @@ with open(SECRET_PATH, "rb") as f:
     context = ts.context_from(f.read())
 
 # ── Load DenseNet ──────────────────────────────────────────────────────────
-print("Loading DenseNet model...")
+print("\nLoading DenseNet model...")
 densenet = models.densenet121()
 weights_dict = load(MODEL_DATA / "weights.pth.tar", map_location="cpu")
 
