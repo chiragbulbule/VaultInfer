@@ -1,37 +1,43 @@
-## Running VaultInfer
+## Step by Step Process to Run VaultInfer
 
-### Installation
+### To Install Required Dependancies
 
 ```bash
 cd vault_infer/client_and_server
 pip install -r requirements.txt
-```
 
----
+```
 
 ### Environment Configuration _(Optional but Recommended)_
 
-Creating a Hugging Face token disables authentication warnings and unlocks higher download rate limits for embedding weights.
+To disable the Hugging Face authentication warning and enable higher rate limits for downloading embedding weights:
 
-1. Create a free account at [huggingface.co](https://huggingface.co/).
-2. Go to **Settings → Access Tokens** and create a token with **Read** access.
-3. Create a `.env` file inside `vault_infer/data/` and add your token:
-   HF_TOKEN=your_actual_token_here
+1. Go [Here](https://huggingface.co/) and create a free account.
+2. Navigate to Settings -> Access Tokens and create a new token with Read access.
+3. Create a file named .env preferably inside the data/ folder (vault_infer/data/.env) and add your token without spaces:
+
+   `HF_TOKEN=your_actual_token_here`
 
 > [!WARNING]
-> **Windows Symlink Warning:** When downloading weights for the first time, Hugging Face may warn about file symlinks. Fix this with one of the following options:
+
+> Windows Symlinks Warning: When downloading the weights for the very first time, Hugging Face may throw a warning regarding file symlinks. To fix or suppress this completely on Windows, choose one of the following options:
 
 <details>
-<summary><strong>Option A — Enable Developer Mode (Recommended)</strong></summary>
+<summary>**Option A: Enable Windows Developer Mode (Recommended)**</summary>
+
+<br>
 
 1. Open **Windows Settings**.
-2. Go to **Privacy & security → For developers** (or search "Developer settings").
-3. Toggle **Developer Mode** on and accept the prompt.
+2. Go to **Privacy & security -> For developers** (or search "Developer settings").
+3. Toggle **Developer Mode** to On and accept the prompt.
 
 </details>
 
 <details>
-<summary><strong>Option B — Set a System Environment Variable</strong></summary>
+<summary>**Option B: Add a Global System Environment Variable**</summary>
+<br>
+
+If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlinks globally:
 
 1. Search for **"Edit the system environment variables"** in the Start Menu and open it.
 2. Click **Environment Variables...** at the bottom right.
@@ -45,15 +51,16 @@ Creating a Hugging Face token disables authentication warnings and unlocks highe
 </details>
 
 <details>
-<summary><strong>Option C — One-Time Administrator Run</strong></summary>
+<summary>**Option C: One-Time Administrator Run**</summary>
+<br>
 
-Run your terminal or VS Code as **Administrator** on the first launch of `server.py`. Once weights are downloaded and cached, normal permissions work fine.
+1. Simply run your terminal or VS Code as Administrator the very first time you launch `server.py`. Once the initial download completes and caches the weights, you can run it normally.
 
 </details>
 
----
+### To Start the Server
 
-### Starting the Server
+1. Open a new terminal
 
 ```bash
 cd vault_infer/client_and_server/server
@@ -61,24 +68,20 @@ uvicorn server:app --reload
 ```
 
 > [!NOTE]
-> The server runs at `http://127.0.0.1:8000` by default.
+> By default the server will run on `http://127.0.0.1:8000`
 
----
+### To Start the Client
 
-### Starting the Client
-
-Open a **new terminal**, then:
+1. Open another new terminal
 
 ```bash
 cd vault_infer/client_and_server/client
 python client.py
 ```
 
----
+## To Reproduce the Model from Scratch
 
-## Reproducing the Model from Scratch
-
-### Retraining the Classifier
+### To Retrain the Classifier
 
 ```bash
 cd vault_infer
@@ -86,7 +89,7 @@ python model.py
 ```
 
 > [!NOTE]
-> `model.py` imports from `dataset.py` and `sentence_embedding.py` automatically — running it alone is sufficient.
+> `model.py` imports from `dataset.py` and `sentence_embedding.py` automatically. Running it alone is sufficient.
 
 > [!WARNING]
-> Retraining will **overwrite** the committed weights. The committed weights achieve **99.4% accuracy** with **0.007 SD** across stratified 5-fold cross-validation.
+> Retraining will overwrite the existing committed weights. The committed weights achieve 99.4% accuracy with 0.007 SD across stratified 5-fold cross validation.
