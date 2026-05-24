@@ -2,31 +2,29 @@
 
 ### To Install Required Dependancies
 
-```
+```bash
 cd vault_infer/client_and_server
 pip install -r requirements.txt
-
 ```
+
+---
 
 ### Environment Configuration _(Optional but Recommended)_
 
 To disable the Hugging Face authentication warning and enable higher rate limits for downloading embedding weights:
 
-1. Go [Here](https://huggingface.co/) and create a free account.
-2. Navigate to Settings -> Access Tokens and create a new token with Read access.
-3. Create a file named .env preferably inside the data/ folder (vault_infer/data/.env) and add your token without spaces:
+1. Create a free account at [huggingface.co](https://huggingface.co/).
+2. Navigate to **Settings -> Access Tokens** and create a new token with **Read** access.
+3. Create a `.env` file preferably inside the `data/` folder `(vault_infer/data/.env) and add your token without spaces:
 
    `HF_TOKEN=your_actual_token_here`
 
 > [!WARNING]
-
-> Windows Symlinks Warning: When downloading the weights for the very first time, Hugging Face may throw a warning regarding file symlinks. To fix or suppress this completely on Windows, choose one of the following options:
+> **Windows Symlinks Warning:** When downloading the weights for the very first time, Hugging Face may throw a warning regarding file symlinks. To fix or suppress this completely on Windows, choose one of the following options:
 
 <details>
-<summary>**Option A: Enable Windows Developer Mode (Recommended)**</summary>
-
+<summary><strong>Option A: Enable Windows Developer Mode (Recommended)</strong></summary>
 <br>
-
 1. Open **Windows Settings**.
 2. Go to **Privacy & security -> For developers** (or search "Developer settings").
 3. Toggle **Developer Mode** to On and accept the prompt.
@@ -36,7 +34,6 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 <details>
 <summary>**Option B: Add a Global System Environment Variable**</summary>
 <br>
-
 If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlinks globally:
 
 1. Search for **"Edit the system environment variables"** in the Start Menu and open it.
@@ -53,7 +50,6 @@ If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlink
 <details>
 <summary>**Option C: One-Time Administrator Run**</summary>
 <br>
-
 1. Simply run your terminal or VS Code as Administrator the very first time you launch `server.py`. Once the initial download completes and caches the weights, you can run it normally.
 
 </details>
