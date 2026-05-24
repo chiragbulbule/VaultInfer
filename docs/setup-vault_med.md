@@ -83,7 +83,7 @@ python feature_extraction.py
 ```
 
 > [!NOTE]
-> This uses the committed weights.pth.tar CheXNet weights to extract 1024-dim features from each image. Outputs train_features.npy, test_features.npy, train_labels.npy, test_labels.npy, vault_med_clipper.joblib, and vault_med_r_scaler.joblib into feature_extraction/data/.
+> This uses the committed `weights.pth.tar` CheXNet weights to extract 1024-dim features from each image. Outputs `train_features.npy`, `test_features.npy`, `train_labels.npy`, `test_labels.npy`, `vault_med_clipper.joblib`, and `vault_med_r_scaler.joblib` into `feature_extraction/data/`.
 
 ---
 
@@ -97,7 +97,7 @@ python train.py
 ```
 
 > [!NOTE]
-> Outputs vault_med_model, vault_weights.npy, and vault_bias.npy into model_training/. Then follow the Quick Start steps above from key generation onwards.
+> Outputs `vault_med_model`, `vault_weights.npy`, and `vault_bias.npy` into `model_training/`. Then follow the Quick Start steps above from key generation onwards.
 
 > [!WARNING]
-> Retraining will overwrite the existing committed weights. The committed weights achieve 91% accuracy, 0.96 PNEUMONIA recall, and 0.82 NORMAL recall on the Kaggle test set.
+> Retraining will overwrite the existing committed weights. The committed weights achieve 91% accuracy, 0.96 Pneumonia recall, and 0.82 Normal recall on the Kaggle test set.
