@@ -7,6 +7,7 @@ import joblib as jl
 from pathlib import Path
 
 BASE_DIR=Path(__file__).parent.resolve()
+PARENT_DIR=BASE_DIR.parent.resolve()
 
 """
 This files contains the code for training and testing of the logistic regression model,along with its predictions for the given sentences(vector embeddings).
@@ -93,19 +94,19 @@ bias=clf.intercept_ #shape-(1,)
 
 flattened_weights=weights.flatten() #This is to make it compatible with tenseal parameters
 
-np.save(f"{BASE_DIR}/vault_weights",flattened_weights)
-np.save(f"{BASE_DIR}/vault_bias",bias)
-jl.dump(clf,f"{BASE_DIR}/vault_model",0)
+np.save(f"{PARENT_DIR}/data/vault_weights",flattened_weights)
+np.save(f"{PARENT_DIR}/data/vault_bias",bias)
+jl.dump(clf,f"{PARENT_DIR}/data/vault_infer_model",0)
 
 
 #----------------------------------------------------------------LOADING MODEL,WEIGHTS AND BIAS FROM RESPECTIVE FILES (TEST)------------------------------------#
 
 """
 
-weights=np.load(f"{BASE_DIR}/vault_weights.npy")
-bias=np.load(f"{BASE_DIR}/vault_bias.npy")
+weights=np.load(f"{PARENT_DIR}/data/vault_weights.npy")
+bias=np.load(f"{PARENT_DIR}/data/vault_bias.npy")
 
-model=jl.load(f"{BASE_DIR}/vault_model")
+model=jl.load(f"{PARENT_DIR}/data/vault_infer_model")
 
 print(weights[:4],weights.shape,bias)
 

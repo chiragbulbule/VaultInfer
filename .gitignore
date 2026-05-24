@@ -11,8 +11,14 @@ __pycache__/
 .vscode/
 .DS_Store
 
+# ── Environment variables ──
+.env
+
 # ── Early experiments — not part of project ──
 experiment/
+
+# ── Sentence Transformer Cache folder ──
+vault_infer/data/cache
 
 # ── Generated keys — never commit ──
 *.tenseal

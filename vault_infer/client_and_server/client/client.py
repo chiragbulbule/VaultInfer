@@ -1,10 +1,20 @@
 import tenseal as ts
 import requests
-import numpy as np
+from pathlib import Path
 from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
+from transformers.utils.logging import disable_progress_bar
+
+BASE_DIR = Path(__file__).parent.resolve()
+PARENT_DIR = BASE_DIR.parent.parent.resolve()
+ENV_PATH = PARENT_DIR / "data" / ".env"  # Replace with your own path if .env file created elsewhere
+CACHE_PATH = PARENT_DIR / "data" / "cache"
+
+load_dotenv(ENV_PATH)
+disable_progress_bar()
 
 print("🔄 Loading Sentence Transformer...")
-model = SentenceTransformer('all-MiniLM-L6-v2')
+model=SentenceTransformer("all-MiniLM-L6-v2",cache_folder = CACHE_PATH) # model used for encoding the sentences into 384 dim vectors
 
 def create_client_context():
     context = ts.context(

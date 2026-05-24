@@ -1,5 +1,8 @@
 from dataset import train_sentences
 from sentence_transformers import SentenceTransformer
+from pathlib import Path
+from dotenv import load_dotenv
+from transformers.utils.logging import disable_progress_bar
 
 """
 This file converts(encodes) the train_sentences from dataset.py into an embedding of 384 dimensional vectors.
@@ -7,7 +10,16 @@ It also includes a user_embed , where a user can type his/her sentence which is 
 
 """
 
-model=SentenceTransformer("all-MiniLM-L6-v2")
+BASE_DIR = Path(__file__).parent.resolve()
+PARENT_DIR = BASE_DIR.parent.resolve()
+ENV_PATH = PARENT_DIR / "data" / ".env"  # Replace with your .env file path
+CACHE_PATH = PARENT_DIR / "data" / "cache"
+
+load_dotenv(ENV_PATH)
+disable_progress_bar()
+
+print("\nLoading Weights..\n")
+model=SentenceTransformer("all-MiniLM-L6-v2",cache_folder = CACHE_PATH) # model used for encoding the sentences into 384 dim vectors
 
 # 384 dim vector embedding
 
