@@ -24,6 +24,7 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 
 <details>
 <summary><strong>Option A: Enable Windows Developer Mode (Recommended)</strong></summary>
+
 <br>
 1. Open **Windows Settings**.
 2. Go to **Privacy & security -> For developers** (or search "Developer settings").
@@ -32,7 +33,8 @@ To disable the Hugging Face authentication warning and enable higher rate limits
 </details>
 
 <details>
-<summary>**Option B: Add a Global System Environment Variable**</summary>
+<summary><strong>Option B: Add a Global System Environment Variable</strong></summary>
+
 <br>
 If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlinks globally:
 
@@ -48,7 +50,8 @@ If you cannot enable Developer Mode, you can tell Hugging Face to bypass symlink
 </details>
 
 <details>
-<summary>**Option C: One-Time Administrator Run**</summary>
+<summary><strong>Option C: One-Time Administrator Run</strong></summary>
+
 <br>
 1. Simply run your terminal or VS Code as Administrator the very first time you launch `server.py`. Once the initial download completes and caches the weights, you can run it normally.
 
