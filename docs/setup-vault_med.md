@@ -2,13 +2,13 @@
 
 ### To Install Required Dependencies
 
+> [!NOTE]
+> TenSEAL supports Python 3.8 through 3.13. Use Python 3.13 for the entire project to avoid dependancy mismatches.
+
 ```bash
 cd vault_med/client_and_server
 pip install -r requirements.txt
 ```
-
-> [!NOTE]
-> TenSEAL supports Python 3.8 through 3.13. Recommended : Python 3.13.
 
 ---
 
